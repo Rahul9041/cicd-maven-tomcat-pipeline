@@ -1,1 +1,29 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'MAVEN3'
+    }
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/Rahul9041/simple-java-maven-app.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Deploy to Tomcat') {
+            steps {
+                // WAR file copy to Tomcat webapps (via SCP or local copy)
+                sh 'cp target/*.war /opt/tomcat/webapps/'
+            }
+        }
+    }
+}
 
